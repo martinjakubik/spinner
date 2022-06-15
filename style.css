@@ -1,0 +1,11 @@
+#content {
+    border: 1px solid #aaaaaa;
+    height: 12em;
+    width: 12em;
+    padding: 1em;
+}
+
+#spinner {
+    height: 10em;
+    background-color: #aaaaaa;
+}
