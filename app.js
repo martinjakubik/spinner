@@ -1,6 +1,6 @@
 const getFormattedPoint = function (aPoint, index, nNumberOfPoints) {
     const nScale = 40;
-    const nIncrement = index * 2 * Math.PI / nNumberOfPoints;
+    const nIncrement = index * 2 * Math.PI / nNumberOfPoints - Math.PI / 2;
     const nCosine = Math.cos(nIncrement);
     const nSine = Math.sin(nIncrement);
     return Math.floor(aPoint[0] + nCosine * nScale) + 'px ' + Math.floor(aPoint[1] + nSine * nScale) + 'px';
