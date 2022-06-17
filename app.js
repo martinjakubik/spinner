@@ -8,7 +8,7 @@ const getFormattedPoint = function (aPoint, nTicks, index, nNumberOfPoints) {
 }
 
 const getShape = function (nTicks) {
-    const nNumberOfPoints = 10;
+    const nNumberOfPoints = 7;
     const aStartPoint = [80, 80];
     let aFormattedPoints = [];
     for (let nPoint = 0; nPoint < nNumberOfPoints; nPoint++) {
@@ -19,12 +19,14 @@ const getShape = function (nTicks) {
 }
 
 const drawSpinner = function () {
+    const oSpinner = document.getElementById('spinner');
     if (nNumberOfTicks > 0) {
-        const oSpinner = document.getElementById('spinner');
         const sShape = getShape(nNumberOfTicks);
         oSpinner.style.clipPath = sShape;
         nNumberOfTicks = nNumberOfTicks - 1;
     } else {
+        const sShape = getShape(1);
+        oSpinner.style.clipPath = sShape;
         clearInterval(nIntervalIdSpinner);
     }
 }
@@ -38,6 +40,7 @@ const main = function () {
     nNumberOfTicks = 60;
     clearInterval(nIntervalIdSpinner);
     nIntervalIdSpinner = setInterval(drawSpinner, 700);
+    drawSpinner();
 }
 
 main();
