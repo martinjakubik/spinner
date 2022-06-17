@@ -1,12 +1,14 @@
 const getFormattedPoint = function (aPoint, nTicks, index, nNumberOfPoints) {
-    const nScale = 20;
-    const nIncrement = index * 2;
+    const nScale = 40;
+    const nIncrement = index * 2 * Math.PI / nNumberOfPoints;
     const nPosition = -nTicks + nIncrement;
-    return Math.floor(aPoint[0] + Math.cos(nPosition) * nScale) + 'px ' + Math.floor(aPoint[1] + Math.sin(nPosition) * nScale) + 'px';
+    const nCosine = Math.cos(nPosition);
+    const nSine = Math.sin(nPosition);
+    return Math.floor(aPoint[0] + nCosine * nScale) + 'px ' + Math.floor(aPoint[1] + nSine * nScale) + 'px';
 }
 
 const getShape = function (nTicks) {
-    const nNumberOfPoints = 3;
+    const nNumberOfPoints = 10;
     const aStartPoint = [80, 80];
     let aFormattedPoints = [];
     for (let nPoint = 0; nPoint < nNumberOfPoints; nPoint++) {
