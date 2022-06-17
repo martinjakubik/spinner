@@ -1,19 +1,17 @@
-const getFormattedPoint = function (aPoint, nTicks, index) {
-    const nScale = 10;
-    const nIncrement = 5;
-    return Math.floor(aPoint[0] + Math.cos(nTicks + nIncrement * index) * nScale) + 'px ' + Math.floor(aPoint[1] + Math.sin(nTicks + nIncrement * index) * nScale) + 'px';
+const getFormattedPoint = function (aPoint, nTicks, index, nNumberOfPoints) {
+    const nScale = 20;
+    const nIncrement = index * 2;
+    const nPosition = -nTicks + nIncrement;
+    return Math.floor(aPoint[0] + Math.cos(nPosition) * nScale) + 'px ' + Math.floor(aPoint[1] + Math.sin(nPosition) * nScale) + 'px';
 }
 
 const getShape = function (nTicks) {
-    const aPoints = [
-        [20, 80],
-        [60, 95],
-        [10, 95]
-    ]
+    const nNumberOfPoints = 3;
+    const aStartPoint = [80, 80];
     let aFormattedPoints = [];
-    aPoints.forEach((aPoint, index) => {
-        aFormattedPoints.push(getFormattedPoint(aPoint, nTicks, index))
-    })
+    for (let nPoint = 0; nPoint < nNumberOfPoints; nPoint++) {
+        aFormattedPoints.push(getFormattedPoint(aStartPoint, nTicks, nPoint, nNumberOfPoints))
+    }
     const sShapePoints = aFormattedPoints.join(',');
     return 'polygon(' + sShapePoints + ')';
 }
