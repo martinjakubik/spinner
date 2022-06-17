@@ -1,7 +1,7 @@
-const getFormattedPoint = function (aPoint, nTicks, index, nNumberOfPoints) {
+const getFormattedPoint = function (aPoint, index, nNumberOfPoints) {
     const nScale = 40;
     const nIncrement = index * 2 * Math.PI / nNumberOfPoints;
-    const nPosition = -nTicks + nIncrement;
+    const nPosition = nIncrement;
     const nCosine = Math.cos(nPosition);
     const nSine = Math.sin(nPosition);
     return Math.floor(aPoint[0] + nCosine * nScale) + 'px ' + Math.floor(aPoint[1] + nSine * nScale) + 'px';
@@ -12,11 +12,13 @@ const getShape = function (nTicks) {
     const aStartPoint = [80, 80];
     let aFormattedPoints = [];
     const nTicksByPoints = Math.floor(nTotalTicks / nNumberOfPoints);
-    aFormattedPoints.push(getFormattedPoint(aStartPoint, nTicks, 0, nNumberOfPoints));
+    aFormattedPoints.push(getFormattedPoint(aStartPoint, 0, nNumberOfPoints));
     aFormattedPoints.push(Math.floor(aStartPoint[0]) + 'px ' + Math.floor(aStartPoint[1]) + 'px');
-    for (let nPoint = 1; nPoint < nNumberOfPoints; nPoint++) {
-        if (nTicks < nPoint * nTicksByPoints) {
-            aFormattedPoints.push(getFormattedPoint(aStartPoint, nTicks, nPoint, nNumberOfPoints))
+    if (nTicks > 0) {
+        for (let nPoint = 1; nPoint < nNumberOfPoints; nPoint++) {
+            if (nTicks < nPoint * nTicksByPoints) {
+                aFormattedPoints.push(getFormattedPoint(aStartPoint, nPoint, nNumberOfPoints))
+            }
         }
     }
     const sShapePoints = aFormattedPoints.join(',');
@@ -30,7 +32,7 @@ const drawSpinner = function () {
         oSpinner.style.clipPath = sShape;
         nNumberOfTicks = nNumberOfTicks + 1;
     } else {
-        const sShape = getShape(1);
+        const sShape = getShape(0);
         oSpinner.style.clipPath = sShape;
         clearInterval(nIntervalIdSpinner);
     }
