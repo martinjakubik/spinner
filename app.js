@@ -11,8 +11,13 @@ const getShape = function (nTicks) {
     const nNumberOfPoints = 7;
     const aStartPoint = [80, 80];
     let aFormattedPoints = [];
-    for (let nPoint = 0; nPoint < nNumberOfPoints; nPoint++) {
-        aFormattedPoints.push(getFormattedPoint(aStartPoint, nTicks, nPoint, nNumberOfPoints))
+    const nTicksByPoints = Math.floor(nTotalTicks / nNumberOfPoints);
+    aFormattedPoints.push(getFormattedPoint(aStartPoint, nTicks, 0, nNumberOfPoints));
+    aFormattedPoints.push(Math.floor(aStartPoint[0]) + 'px ' + Math.floor(aStartPoint[1]) + 'px');
+    for (let nPoint = 1; nPoint < nNumberOfPoints; nPoint++) {
+        if (nTicks < nPoint * nTicksByPoints) {
+            aFormattedPoints.push(getFormattedPoint(aStartPoint, nTicks, nPoint, nNumberOfPoints))
+        }
     }
     const sShapePoints = aFormattedPoints.join(',');
     return 'polygon(' + sShapePoints + ')';
@@ -40,7 +45,7 @@ const main = function () {
     oButtonRestart.onclick = main;
     nNumberOfTicks = 0;
     clearInterval(nIntervalIdSpinner);
-    // nIntervalIdSpinner = setInterval(drawSpinner, 700);
+    nIntervalIdSpinner = setInterval(drawSpinner, 700);
     drawSpinner();
 }
 
