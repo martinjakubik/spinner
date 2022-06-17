@@ -20,10 +20,10 @@ const getShape = function (nTicks) {
 
 const drawSpinner = function () {
     const oSpinner = document.getElementById('spinner');
-    if (nNumberOfTicks > 0) {
+    if (nNumberOfTicks < nTotalTicks) {
         const sShape = getShape(nNumberOfTicks);
         oSpinner.style.clipPath = sShape;
-        nNumberOfTicks = nNumberOfTicks - 1;
+        nNumberOfTicks = nNumberOfTicks + 1;
     } else {
         const sShape = getShape(1);
         oSpinner.style.clipPath = sShape;
@@ -32,14 +32,15 @@ const drawSpinner = function () {
 }
 
 let nIntervalIdSpinner = -1;
+const nTotalTicks = 60;
 let nNumberOfTicks;
 
 const main = function () {
     oButtonRestart = document.getElementById('restart');
     oButtonRestart.onclick = main;
-    nNumberOfTicks = 60;
+    nNumberOfTicks = 0;
     clearInterval(nIntervalIdSpinner);
-    nIntervalIdSpinner = setInterval(drawSpinner, 700);
+    // nIntervalIdSpinner = setInterval(drawSpinner, 700);
     drawSpinner();
 }
 
