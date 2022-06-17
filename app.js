@@ -8,7 +8,7 @@ const getFormattedPoint = function (aPoint, nTicks, index, nNumberOfPoints) {
 }
 
 const getShape = function (nTicks) {
-    const nNumberOfPoints = 7;
+    const nNumberOfPoints = 30;
     const aStartPoint = [80, 80];
     let aFormattedPoints = [];
     const nTicksByPoints = Math.floor(nTotalTicks / nNumberOfPoints);
