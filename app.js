@@ -1,4 +1,9 @@
-const getFormattedPoint = function (aPoint, index, nNumberOfPoints) {
+const SHAPES = {
+    CLOCK_TIMER: 0,
+    DOT_SPINNER: 1
+}
+
+const getFormattedPointForClockTimer = function (aPoint, index, nNumberOfPoints) {
     const nScale = 40;
     const nIncrement = index * 2 * Math.PI / nNumberOfPoints - Math.PI / 2;
     const nCosine = Math.cos(nIncrement);
@@ -6,17 +11,26 @@ const getFormattedPoint = function (aPoint, index, nNumberOfPoints) {
     return Math.floor(aPoint[0] + nCosine * nScale) + 'px ' + Math.floor(aPoint[1] + nSine * nScale) + 'px';
 }
 
+const getFormattedPoint = function (eShape = SHAPES.CLOCK_TIMER, aPoint, index, nNumberOfPoints) {
+    switch (eShape) {
+        case SHAPES.CLOCK_TIMER:
+            return getFormattedPointForClockTimer(aPoint, index, nNumberOfPoints)
+        default:
+            return getFormattedPointForClockTimer(aPoint, index, nNumberOfPoints)
+    }
+}
+
 const getShape = function (nTicks) {
     const nNumberOfPoints = 30;
     const aStartPoint = [80, 80];
     let aFormattedPoints = [];
     const nTicksByPoints = Math.floor(nTotalTicks / nNumberOfPoints);
-    aFormattedPoints.push(getFormattedPoint(aStartPoint, 0, nNumberOfPoints));
+    aFormattedPoints.push(getFormattedPoint(SHAPES.CLOCK_TIMER, aStartPoint, 0, nNumberOfPoints));
     aFormattedPoints.push(Math.floor(aStartPoint[0]) + 'px ' + Math.floor(aStartPoint[1]) + 'px');
     if (nTicks > 0) {
         for (let nPoint = 1; nPoint < nNumberOfPoints; nPoint++) {
             if (nTicks < nPoint * nTicksByPoints) {
-                aFormattedPoints.push(getFormattedPoint(aStartPoint, nPoint, nNumberOfPoints))
+                aFormattedPoints.push(getFormattedPoint(SHAPES.CLOCK_TIMER, aStartPoint, nPoint, nNumberOfPoints))
             }
         }
     }
