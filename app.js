@@ -1,6 +1,6 @@
 const SHAPES = {
     CLOCK_TIMER: 0,
-    DOT_SPINNER: 1
+    SINE_WAVE: 1
 }
 
 const getFormattedPointForClockTimer = function (aPoint, index, nNumberOfPoints) {
@@ -11,18 +11,19 @@ const getFormattedPointForClockTimer = function (aPoint, index, nNumberOfPoints)
     return Math.floor(aPoint[0] + nCosine * nScale) + 'px ' + Math.floor(aPoint[1] + nSine * nScale) + 'px';
 }
 
-const getFormattedPointForDotSpinner = function (aPoint, index, nNumberOfPoints) {
+const getFormattedPointForSineWave = function (aPoint, index, nNumberOfPoints) {
     const nScale = 40;
     const nIncrement = index * 2 * Math.PI / nNumberOfPoints - Math.PI / 2;
-    const nCosine = Math.cos(nIncrement);
     const nSine = Math.sin(nIncrement);
-    return Math.floor(aPoint[0] + nCosine * nScale) + 'px ' + Math.floor(aPoint[1] + nSine * nScale) + 'px';
+    return Math.floor(aPoint[0] + nNumberOfPoints - index) + 'px ' + Math.floor(aPoint[1] + nSine * nScale) + 'px';
 }
 
 const getFormattedPoint = function (eShape = SHAPES.CLOCK_TIMER, aPoint, index, nNumberOfPoints) {
     switch (eShape) {
         case SHAPES.CLOCK_TIMER:
             return getFormattedPointForClockTimer(aPoint, index, nNumberOfPoints)
+        case SHAPES.SINE_WAVE:
+            return getFormattedPointForSineWave(aPoint, index, nNumberOfPoints)
         default:
             return getFormattedPointForClockTimer(aPoint, index, nNumberOfPoints)
     }
