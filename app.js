@@ -15,7 +15,7 @@ const getCssFormattedPointFromXY = function (sFormattedXValue, sFormattedYValue)
     return `${sFormattedXValue}px ${sFormattedYValue}px`;
 }
 
-const getFormattedPointForClockTimer = function (aPoint, index, nNumberOfPoints, bIsCssFormat = true) {
+const getPointForClockTimer = function (aPoint, index, nNumberOfPoints, bIsCssFormat = true) {
     const nScale = 40;
     const nIncrement = index * 2 * Math.PI / nNumberOfPoints - Math.PI / 2;
     const nCosine = Math.cos(nIncrement);
@@ -25,39 +25,42 @@ const getFormattedPointForClockTimer = function (aPoint, index, nNumberOfPoints,
     return bIsCssFormat ? getCssFormattedPointFromXY(sFormattedXValue, sFormattedYValue) : getSvgPointFromXY(sFormattedXValue, sFormattedYValue);
 }
 
-const getFormattedPointForSineWave = function (aPoint, index, nNumberOfPoints, bIsCssFormat = true) {
+const getPointForSineWave = function (aPoint, index, nNumberOfPoints, bIsCssFormat = true) {
     const nScale = 40;
     const nIncrement = index * 2 * Math.PI / nNumberOfPoints - Math.PI / 2;
     const nSine = Math.sin(nIncrement);
-    const sFormattedXValue = Math.floor(aPoint[0] + nNumberOfPoints - index);
+    const sFormattedXValue = Math.floor(aPoint[0] - 74 + nNumberOfPoints - index) * 4;
     const sFormattedYValue = Math.floor(aPoint[1] + nSine * nScale);
     return bIsCssFormat ? getCssFormattedPointFromXY(sFormattedXValue, sFormattedYValue) : getSvgPointFromXY(sFormattedXValue, sFormattedYValue);
 }
 
-const getFormattedPoint = function (eShape = SHAPES.CLOCK_TIMER, aPoint, index, nNumberOfPoints, bIsCssFormat = true) {
+const getPoint = function (eShape = SHAPES.CLOCK_TIMER, aPoint, index, nNumberOfPoints, bIsCssFormat = true) {
     switch (eShape) {
         case SHAPES.CLOCK_TIMER:
-            return getFormattedPointForClockTimer(aPoint, index, nNumberOfPoints, bIsCssFormat)
+            return getPointForClockTimer(aPoint, index, nNumberOfPoints, bIsCssFormat)
         case SHAPES.SINE_WAVE:
-            return getFormattedPointForSineWave(aPoint, index, nNumberOfPoints, bIsCssFormat)
+            return getPointForSineWave(aPoint, index, nNumberOfPoints, bIsCssFormat)
         default:
-            return getFormattedPointForClockTimer(aPoint, index, nNumberOfPoints, bIsCssFormat)
+            return getPointForClockTimer(aPoint, index, nNumberOfPoints, bIsCssFormat)
     }
 }
 
 const getShapePathCss = function (eShape = SHAPES.CLOCK_TIMER, nTicks, nNumberOfPoints, aStartPoint, nTicksByPoints) {
     let aFormattedPoints = [];
-    let oFormattedPoint = getFormattedPoint(eShape, aStartPoint, 0, nNumberOfPoints, true);
+    let oFormattedPoint = getPoint(eShape, aStartPoint, 0, nNumberOfPoints, true);
     aFormattedPoints.push(oFormattedPoint);
     const oFormattedStartPoint = getCssFormattedPointFromXY(aStartPoint[0], aStartPoint[1], true);
     aFormattedPoints.push(oFormattedStartPoint);
     if (nTicks > 0) {
         for (let nPoint = 1; nPoint < nNumberOfPoints; nPoint++) {
             if (nTicks < nPoint * nTicksByPoints) {
-                oFormattedPoint = getFormattedPoint(eShape, aStartPoint, nPoint, nNumberOfPoints, true);
+                oFormattedPoint = getPoint(eShape, aStartPoint, nPoint, nNumberOfPoints, true);
                 aFormattedPoints.push(oFormattedPoint);
             }
         }
+    }
+    if (eShape === SHAPES.SINE_WAVE) {
+        aFormattedPoints.push(oFormattedStartPoint);
     }
     return aFormattedPoints.join(',');
 }
@@ -65,19 +68,22 @@ const getShapePathCss = function (eShape = SHAPES.CLOCK_TIMER, nTicks, nNumberOf
 const getShapePathSvg = function (eShape = SHAPES.CLOCK_TIMER, nTicks, nNumberOfPoints, aStartPoint, nTicksByPoints) {
     const oSvgSpinner = document.getElementById('svgspinner');
     const oSvgPointList = oSvgSpinner.points;
-    let oFormattedPoint = getFormattedPoint(eShape, aStartPoint, 0, nNumberOfPoints, false);
+    let oFormattedPoint = getPoint(eShape, aStartPoint, 0, nNumberOfPoints, false);
     oSvgPointList.appendItem(oFormattedPoint);
     const oFormattedStartPoint = getSvgPointFromXY(aStartPoint[0], aStartPoint[1], false);
     oSvgPointList.appendItem(oFormattedStartPoint);
     if (nTicks > 0) {
         for (let nPoint = 1; nPoint < nNumberOfPoints; nPoint++) {
             if (nTicks < nPoint * nTicksByPoints) {
-                oFormattedPoint = getFormattedPoint(eShape, aStartPoint, nPoint, nNumberOfPoints, false);
+                oFormattedPoint = getPoint(eShape, aStartPoint, nPoint, nNumberOfPoints, false);
                 oSvgPointList.appendItem(oFormattedPoint);
             }
         }
-        return oSvgPointList;
     }
+    if (eShape === SHAPES.SINE_WAVE) {
+        oSvgPointList.appendItem(oFormattedStartPoint);
+    }
+    return oSvgPointList;
 }
 
 const getShapePath = function (eShape = SHAPES.CLOCK_TIMER, nTicks, bIsCssFormat = true) {
@@ -123,7 +129,7 @@ const nTotalTicks = 60;
 let nNumberOfTicks;
 
 const main = function () {
-    drawSvgSpinner();
+    drawSvgSpinner(SHAPES.CLOCK_TIMER);
     oButtonRestart = document.getElementById('restart');
     oButtonRestart.onclick = main;
     nNumberOfTicks = 0;
