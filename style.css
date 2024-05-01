@@ -1,11 +1,23 @@
-#content {
+#csscontent {
     border: 1px solid #aaaaaa;
     height: 12em;
     width: 12em;
     padding: 1em;
 }
 
-#spinner {
+#cssspinner {
     height: 10em;
     background-color: #aaaaaa;
+}
+
+#svgcontent {
+    border: 1px solid #aaaaaa;
+    height: 12em;
+    width: 12em;
+    padding: 1em;
+}
+
+#svgspinner {
+    fill: none;
+    stroke: black;
 }
