@@ -29,7 +29,7 @@ const nTotalTicks = 60;
 let nNumberOfTicks;
 
 const main = function () {
-    const oSpinnerController = new ClockTimerSpinner();
+    const oSpinnerController = new SineWaveSpinner();
     drawSvgSpinner(oSpinnerController);
     const oButtonRestart = document.getElementById('restart');
     oButtonRestart.onclick = main;
