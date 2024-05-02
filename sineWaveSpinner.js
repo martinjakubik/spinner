@@ -72,17 +72,17 @@ export class SineWaveSpinner extends BaseSpinner {
         return oSvgPointList;
     }
 
-    static drawShapePath = function (eShape = SineWaveSpinner.SHAPES.CLOCK_TIMER, nTicks, nTotalTicks, bIsCssFormat = true) {
+    drawShapePath = function (nTicks, nTotalTicks, bIsCssFormat = true) {
         const nNumberOfPoints = 30;
         const aStartPoint = [80, 80];
         const nTicksByPoints = Math.floor(nTotalTicks / nNumberOfPoints);
         if (bIsCssFormat) {
-            return SineWaveSpinner.getShapePathCss(eShape, nTicks, nNumberOfPoints, aStartPoint, nTicksByPoints);
+            return SineWaveSpinner.getShapePathCss(SineWaveSpinner.SHAPES.SINE_WAVE, nTicks, nNumberOfPoints, aStartPoint, nTicksByPoints);
         }
-        return SineWaveSpinner.getShapePathSvg(eShape, nTicks, nNumberOfPoints, aStartPoint, nTicksByPoints);
+        return SineWaveSpinner.getShapePathSvg(SineWaveSpinner.SHAPES.SINE_WAVE, nTicks, nNumberOfPoints, aStartPoint, nTicksByPoints);
     }
 
-    static getShape = function (eShape = SineWaveSpinner.SHAPES.CLOCK_TIMER, nTicks, nTotalTicks, bIsCssFormat) {
-        return `polygon(${SineWaveSpinner.drawShapePath(eShape, nTicks, nTotalTicks, bIsCssFormat)})`;
+    getShape = function (nTicks, nTotalTicks, bIsCssFormat) {
+        return `polygon(${this.drawShapePath(nTicks, nTotalTicks, bIsCssFormat)})`;
     }
 }

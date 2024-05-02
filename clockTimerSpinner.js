@@ -52,17 +52,17 @@ export class ClockTimerSpinner extends BaseSpinner {
         return oSvgPointList;
     }
 
-    static drawShapePath = function (eShape = ClockTimerSpinner.SHAPES.CLOCK_TIMER, nTicks, nTotalTicks, bIsCssFormat = true) {
+    drawShapePath = function (nTicks, nTotalTicks, bIsCssFormat = true) {
         const nNumberOfPoints = 30;
         const aStartPoint = [80, 80];
         const nTicksByPoints = Math.floor(nTotalTicks / nNumberOfPoints);
         if (bIsCssFormat) {
-            return ClockTimerSpinner.getShapePathCss(eShape, nTicks, nNumberOfPoints, aStartPoint, nTicksByPoints);
+            return ClockTimerSpinner.getShapePathCss(ClockTimerSpinner.SHAPES.CLOCK_TIMER, nTicks, nNumberOfPoints, aStartPoint, nTicksByPoints);
         }
-        return ClockTimerSpinner.getShapePathSvg(eShape, nTicks, nNumberOfPoints, aStartPoint, nTicksByPoints);
+        return ClockTimerSpinner.getShapePathSvg(ClockTimerSpinner.SHAPES.CLOCK_TIMER, nTicks, nNumberOfPoints, aStartPoint, nTicksByPoints);
     }
 
-    static getShape = function (eShape = ClockTimerSpinner.SHAPES.CLOCK_TIMER, nTicks, nTotalTicks, bIsCssFormat) {
-        return `polygon(${ClockTimerSpinner.drawShapePath(eShape, nTicks, nTotalTicks, bIsCssFormat)})`;
+    getShape = function (nTicks, nTotalTicks, bIsCssFormat) {
+        return `polygon(${this.drawShapePath(nTicks, nTotalTicks, bIsCssFormat)})`;
     }
 }
