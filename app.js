@@ -1,4 +1,5 @@
 import { ClockTimerSpinner } from "./clockTimerSpinner.js";
+import { SineWaveSpinner } from "./sineWaveSpinner.js";
 
 const drawSpinner = function (eShape = ClockTimerSpinner.SHAPES.CLOCK_TIMER) {
     const oSpinner = document.getElementById('cssspinner');
