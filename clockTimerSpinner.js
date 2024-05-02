@@ -11,7 +11,7 @@ export class ClockTimerSpinner extends BaseSpinner {
         return bIsCssFormat ? ClockTimerSpinner.getCssFormattedPointFromXY(sFormattedXValue, sFormattedYValue) : ClockTimerSpinner.getSvgPointFromXY(sFormattedXValue, sFormattedYValue);
     }
 
-    static getShapePathCss = function (eShape = ClockTimerSpinner.SHAPES.CLOCK_TIMER, nTicks, nNumberOfPoints, aStartPoint, nTicksByPoints) {
+    static getShapePathCss = function (nTicks, nNumberOfPoints, aStartPoint, nTicksByPoints) {
         let aFormattedPoints = [];
         let oFormattedPoint = ClockTimerSpinner.getPoint(aStartPoint, 0, nNumberOfPoints, true);
         aFormattedPoints.push(oFormattedPoint);
@@ -25,13 +25,10 @@ export class ClockTimerSpinner extends BaseSpinner {
                 }
             }
         }
-        if (eShape === ClockTimerSpinner.SHAPES.SINE_WAVE) {
-            aFormattedPoints.push(oFormattedStartPoint);
-        }
         return aFormattedPoints.join(',');
     }
 
-    static getShapePathSvg = function (eShape = ClockTimerSpinner.SHAPES.CLOCK_TIMER, nTicks, nNumberOfPoints, aStartPoint, nTicksByPoints) {
+    static getShapePathSvg = function (nTicks, nNumberOfPoints, aStartPoint, nTicksByPoints) {
         const oSvgSpinner = document.getElementById('svgspinner');
         const oSvgPointList = oSvgSpinner.points;
         let oFormattedPoint = ClockTimerSpinner.getPoint(aStartPoint, 0, nNumberOfPoints, false);
@@ -46,9 +43,6 @@ export class ClockTimerSpinner extends BaseSpinner {
                 }
             }
         }
-        if (eShape === ClockTimerSpinner.SHAPES.SINE_WAVE) {
-            oSvgPointList.appendItem(oFormattedStartPoint);
-        }
         return oSvgPointList;
     }
 
@@ -57,9 +51,9 @@ export class ClockTimerSpinner extends BaseSpinner {
         const aStartPoint = [80, 80];
         const nTicksByPoints = Math.floor(nTotalTicks / nNumberOfPoints);
         if (bIsCssFormat) {
-            return ClockTimerSpinner.getShapePathCss(ClockTimerSpinner.SHAPES.CLOCK_TIMER, nTicks, nNumberOfPoints, aStartPoint, nTicksByPoints);
+            return ClockTimerSpinner.getShapePathCss(nTicks, nNumberOfPoints, aStartPoint, nTicksByPoints);
         }
-        return ClockTimerSpinner.getShapePathSvg(ClockTimerSpinner.SHAPES.CLOCK_TIMER, nTicks, nNumberOfPoints, aStartPoint, nTicksByPoints);
+        return ClockTimerSpinner.getShapePathSvg(nTicks, nNumberOfPoints, aStartPoint, nTicksByPoints);
     }
 
     getShape = function (nTicks, nTotalTicks, bIsCssFormat) {
