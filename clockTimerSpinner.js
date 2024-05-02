@@ -1,6 +1,7 @@
 import { BaseSpinner } from "./baseSpinner.js";
 
 export class ClockTimerSpinner extends BaseSpinner {
+    static sName = 'ClockTimer';
     static getPoint = function (aPoint, index, nNumberOfPoints, bIsCssFormat = true) {
         const nScale = 40;
         const nIncrement = index * 2 * Math.PI / nNumberOfPoints - Math.PI / 2;
