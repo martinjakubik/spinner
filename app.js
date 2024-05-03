@@ -1,7 +1,8 @@
 import { ClockTimerSpinner } from "./clockTimerSpinner.js";
 import { SineWaveSpinner } from "./sineWaveSpinner.js";
+import { DotClockSpinner } from "./dotClockSpinner.js";
 
-const aShapes = [ClockTimerSpinner, SineWaveSpinner];
+const aShapes = [ClockTimerSpinner, SineWaveSpinner, DotClockSpinner];
 
 const drawSpinner = function (oSpinnerController) {
     const oSpinner = document.getElementById('cssspinner');
@@ -68,6 +69,9 @@ const restart = function (sSelectedShape = 'ClockTimer') {
             break;
         case 'SineWave':
             oSpinnerController = new SineWaveSpinner();
+            break;
+        case 'DotClock':
+            oSpinnerController = new DotClockSpinner();
             break;
         default:
             oSpinnerController = new ClockTimerSpinner();
