@@ -10,4 +10,18 @@ export class BaseSpinner {
     static getCssFormattedPointFromXY = function (sFormattedXValue, sFormattedYValue) {
         return `${sFormattedXValue}px ${sFormattedYValue}px`;
     }
+
+    static clearShapePathSvg = function () {
+        const oSvgSpinner = document.getElementById('svgspinner');
+        if (oSvgSpinner) {
+            const oSvgPointList = oSvgSpinner.points;
+            oSvgPointList.clear();
+        }
+    }
+
+    clearShapePath = function (bIsCssFormat = true) {
+        if (!bIsCssFormat) {
+            BaseSpinner.clearShapePathSvg();
+        }
+    }
 }

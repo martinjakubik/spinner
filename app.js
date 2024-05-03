@@ -16,6 +16,10 @@ const drawSpinner = function (oSpinnerController) {
     }
 }
 
+const clearSvgSpinner = function (oSpinnerController) {
+    oSpinnerController.clearShapePath(false);
+}
+
 const drawSvgSpinner = function (oSpinnerController) {
     const oSvgContent = document.getElementById('svgcontent');
     const oSvgSpinner = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
@@ -30,8 +34,16 @@ let nIntervalIdSpinner = -1;
 const nTotalTicks = 60;
 let nNumberOfTicks;
 
+const handleRestartClick = function () {
+    const oShapeSelect = document.getElementById('shapeSelect');
+    const sSelectedShape = oShapeSelect.value;
+    restart(sSelectedShape);
+}
+
 const handleShapeSelectChange = function (oEvent) {
-    restart();
+    const oTarget = oEvent ? oEvent.target : null;
+    const sSelectedShape = oTarget ? oTarget.value : null;
+    restart(sSelectedShape);
 }
 
 const createShapeSelect = function () {
@@ -47,9 +59,21 @@ const createShapeSelect = function () {
     oShapeSelect.addEventListener('change', handleShapeSelectChange)
 }
 
-const restart = function () {
+const restart = function (sSelectedShape = 'ClockTimer') {
     nNumberOfTicks = 0;
-    const oSpinnerController = new ClockTimerSpinner();
+    let oSpinnerController;
+    switch (sSelectedShape) {
+        case 'ClockTimer':
+            oSpinnerController = new ClockTimerSpinner();
+            break;
+        case 'SineWave':
+            oSpinnerController = new SineWaveSpinner();
+            break;
+        default:
+            oSpinnerController = new ClockTimerSpinner();
+            break;
+    }
+    clearSvgSpinner(oSpinnerController);
     drawSvgSpinner(oSpinnerController);
     clearInterval(nIntervalIdSpinner);
     nIntervalIdSpinner = setInterval(drawSpinner, 700, oSpinnerController);
@@ -59,7 +83,7 @@ const restart = function () {
 const main = function () {
     createShapeSelect();
     const oButtonRestart = document.getElementById('restart');
-    oButtonRestart.onclick = restart;
+    oButtonRestart.onclick = handleRestartClick;
     restart();
 }
 
