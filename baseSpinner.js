@@ -2,8 +2,8 @@ export class BaseSpinner {
     static getSvgPointFromXY = function (sFormattedXValue, sFormattedYValue) {
         const oSvgContent = document.getElementById('svgcontent');
         const oSvgPoint = oSvgContent.createSVGPoint();
-        oSvgPoint.x = sFormattedXValue;
-        oSvgPoint.y = sFormattedYValue;
+        oSvgPoint.x = sFormattedXValue * 4;
+        oSvgPoint.y = sFormattedYValue * 4;
         return oSvgPoint;
     }
 

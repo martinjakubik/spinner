@@ -1,3 +1,7 @@
+body {
+    display: flex;
+}
+
 #csscontent {
     border: 1px solid #aaaaaa;
     height: 12em;
@@ -12,8 +16,8 @@
 
 #svgcontent {
     border: 1px solid #aaaaaa;
-    height: 12em;
-    width: 12em;
+    height: 48em;
+    width: 48em;
     padding: 1em;
 }
 
