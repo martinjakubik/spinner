@@ -52,7 +52,7 @@ export class DotClockSpinner extends BaseSpinner {
         let oFormattedPoint = DotClockSpinner.getPoint(aStartPoint, 0, nNumberOfPoints, false);
         // oSvgPointList.appendItem(oFormattedPoint);
         if (nTicks > 0) {
-            for (let nPoint = 1; nPoint < nNumberOfPoints; nPoint++) {
+            for (let nPoint = 1; nPoint <= nNumberOfPoints; nPoint++) {
                 if (nTicks < nPoint * nTicksByPoints) {
                     oFormattedPoint = DotClockSpinner.getPoint(aStartPoint, nPoint, nNumberOfPoints, false);
                     DotClockSpinner.getPointsForCircleAtStartPoint(oFormattedPoint, null, oSvgPointList, false);
@@ -63,7 +63,7 @@ export class DotClockSpinner extends BaseSpinner {
     }
 
     drawShapePath = function (nTicks, nTotalTicks, bIsCssFormat = true) {
-        const nNumberOfPoints = 40;
+        const nNumberOfPoints = 22;
         const aStartPoint = [80, 80];
         const nTicksByPoints = Math.floor(nTotalTicks / nNumberOfPoints);
         if (bIsCssFormat) {
