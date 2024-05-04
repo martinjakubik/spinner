@@ -24,4 +24,8 @@ export class BaseSpinner {
             BaseSpinner.clearShapePathSvg();
         }
     }
+
+    getShape = function (nTicks, nTotalTicks, bIsCssFormat) {
+        return `polygon(${this.drawShapePath(nTicks, nTotalTicks, bIsCssFormat)})`;
+    }
 }

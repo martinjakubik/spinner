@@ -56,8 +56,4 @@ export class ClockTimerSpinner extends BaseSpinner {
         }
         return ClockTimerSpinner.getShapePathSvg(nTicks, nNumberOfPoints, aStartPoint, nTicksByPoints);
     }
-
-    getShape = function (nTicks, nTotalTicks, bIsCssFormat) {
-        return `polygon(${this.drawShapePath(nTicks, nTotalTicks, bIsCssFormat)})`;
-    }
 }

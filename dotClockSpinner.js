@@ -70,8 +70,4 @@ export class DotClockSpinner extends BaseSpinner {
         }
         return DotClockSpinner.getShapePathSvg(nTicks, nNumberOfPoints, aStartPoint, nTicksByPoints);
     }
-
-    getShape = function (nTicks, nTotalTicks, bIsCssFormat) {
-        return `polygon(${this.drawShapePath(nTicks, nTotalTicks, bIsCssFormat)})`;
-    }
 }
