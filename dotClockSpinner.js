@@ -5,27 +5,44 @@ export class DotClockSpinner extends BaseSpinner {
     static getPoint = function (aPoint, index, nNumberOfPoints, bIsCssFormat = true) {
         const nScale = 40;
         const nIncrement = index * 2 * Math.PI / nNumberOfPoints - Math.PI / 2;
+        const nCosine = Math.cos(nIncrement);
         const nSine = Math.sin(nIncrement);
-        const sFormattedXValue = Math.floor(aPoint[0] - 74 + nNumberOfPoints - index) * 4;
+        const sFormattedXValue = Math.floor(aPoint[0] + nCosine * nScale);
         const sFormattedYValue = Math.floor(aPoint[1] + nSine * nScale);
         return bIsCssFormat ? DotClockSpinner.getCssFormattedPointFromXY(sFormattedXValue, sFormattedYValue) : DotClockSpinner.getSvgPointFromXY(sFormattedXValue, sFormattedYValue);
+    }
+
+    static getPointsForCircleAtStartPoint(oStartPoint, aFormattedPoints, oSvgPointList, bIsCssFormat = true) {
+        const nNumberOfPoints = 10;
+        const nScale = 8;
+        for (let nAngle = 0; nAngle <= 2 * Math.PI; nAngle = nAngle + 2 * Math.PI / nNumberOfPoints) {
+            const aPoint = [
+                (Math.cos(nAngle) + oStartPoint.x / 40) * nScale,
+                (Math.sin(nAngle) + oStartPoint.y / 40) * nScale
+            ];
+            if (bIsCssFormat) {
+                const oFormattedPoint = DotClockSpinner.getPoint(aPoint, nAngle, nNumberOfPoints, true);
+                aFormattedPoints.push(oFormattedPoint);
+            } else {
+                const oSvgPoint = BaseSpinner.getSvgPointFromXY(aPoint[0], aPoint[1]);
+                oSvgPointList.appendItem(oSvgPoint);
+            }
+        }
     }
 
     static getShapePathCss = function (nTicks, nNumberOfPoints, aStartPoint, nTicksByPoints) {
         let aFormattedPoints = [];
         let oFormattedPoint = DotClockSpinner.getPoint(aStartPoint, 0, nNumberOfPoints, true);
         aFormattedPoints.push(oFormattedPoint);
-        const oFormattedStartPoint = DotClockSpinner.getCssFormattedPointFromXY(aStartPoint[0], aStartPoint[1], true);
-        aFormattedPoints.push(oFormattedStartPoint);
         if (nTicks > 0) {
             for (let nPoint = 1; nPoint < nNumberOfPoints; nPoint++) {
                 if (nTicks < nPoint * nTicksByPoints) {
                     oFormattedPoint = DotClockSpinner.getPoint(aStartPoint, nPoint, nNumberOfPoints, true);
+                    DotClockSpinner.getPointsForCircleAtStartPoint(oFormattedPoint, aFormattedPoints, null, true);
                     aFormattedPoints.push(oFormattedPoint);
                 }
             }
         }
-        aFormattedPoints.push(oFormattedStartPoint);
         return aFormattedPoints.join(',');
     }
 
@@ -33,23 +50,20 @@ export class DotClockSpinner extends BaseSpinner {
         const oSvgSpinner = document.getElementById('svgspinner');
         const oSvgPointList = oSvgSpinner.points;
         let oFormattedPoint = DotClockSpinner.getPoint(aStartPoint, 0, nNumberOfPoints, false);
-        oSvgPointList.appendItem(oFormattedPoint);
-        const oFormattedStartPoint = DotClockSpinner.getSvgPointFromXY(aStartPoint[0], aStartPoint[1], false);
-        oSvgPointList.appendItem(oFormattedStartPoint);
+        // oSvgPointList.appendItem(oFormattedPoint);
         if (nTicks > 0) {
             for (let nPoint = 1; nPoint < nNumberOfPoints; nPoint++) {
                 if (nTicks < nPoint * nTicksByPoints) {
                     oFormattedPoint = DotClockSpinner.getPoint(aStartPoint, nPoint, nNumberOfPoints, false);
-                    oSvgPointList.appendItem(oFormattedPoint);
+                    DotClockSpinner.getPointsForCircleAtStartPoint(oFormattedPoint, null, oSvgPointList, false);
                 }
             }
         }
-        oSvgPointList.appendItem(oFormattedStartPoint);
         return oSvgPointList;
     }
 
     drawShapePath = function (nTicks, nTotalTicks, bIsCssFormat = true) {
-        const nNumberOfPoints = 30;
+        const nNumberOfPoints = 40;
         const aStartPoint = [80, 80];
         const nTicksByPoints = Math.floor(nTotalTicks / nNumberOfPoints);
         if (bIsCssFormat) {
