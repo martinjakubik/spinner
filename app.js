@@ -4,6 +4,16 @@ import { DotClockSpinner } from "./dotClockSpinner.js";
 
 const aShapes = [ClockTimerSpinner, SineWaveSpinner, DotClockSpinner];
 
+const isValidShape = function (sRequestedShape) {
+    let bIsValidShape = false;
+    aShapes.forEach(oShape => {
+        if (oShape.sName === sRequestedShape) {
+            bIsValidShape = true;
+        }
+    });
+    return bIsValidShape;
+}
+
 const drawSpinner = function (oSpinnerController) {
     const oSpinner = document.getElementById('cssspinner');
     if (nNumberOfTicks < nTotalTicks) {
@@ -44,10 +54,16 @@ const handleRestartClick = function () {
 const handleShapeSelectChange = function (oEvent) {
     const oTarget = oEvent ? oEvent.target : null;
     const sSelectedShape = oTarget ? oTarget.value : null;
-    restart(sSelectedShape);
+    let sCurrentShape = isValidShape(sSelectedShape) ? sSelectedShape : null;
+    let oSearchParams = new URL(document.location).searchParams;
+    if (sCurrentShape) {
+        oSearchParams.set('shape', sCurrentShape);
+        document.location.search = oSearchParams.toString();
+    }
+    restart(sCurrentShape);
 }
 
-const createShapeSelect = function () {
+const createShapeSelect = function (sCurrentShape) {
     const oShapeSelect = document.getElementById('shapeSelect');
     const nShapeCount = aShapes.length;
     for (let i = 0; i < nShapeCount; i++) {
@@ -56,6 +72,9 @@ const createShapeSelect = function () {
         oShapeSelectOption.value = aShapes[i].sName;
         oShapeSelectOption.innerText = aShapes[i].sName;
         oShapeSelect.appendChild(oShapeSelectOption);
+    }
+    if (sCurrentShape) {
+        oShapeSelect.value = sCurrentShape;
     }
     oShapeSelect.addEventListener('change', handleShapeSelectChange)
 }
@@ -85,10 +104,13 @@ const restart = function (sSelectedShape = 'ClockTimer') {
 }
 
 const main = function () {
-    createShapeSelect();
+    let oSearchParams = new URL(document.location).searchParams;
+    let sShapeParam = oSearchParams.get('shape');
+    let sCurrentShape = isValidShape(sShapeParam) ? sShapeParam : null;
+    createShapeSelect(sCurrentShape);
     const oButtonRestart = document.getElementById('restart');
     oButtonRestart.onclick = handleRestartClick;
-    restart();
+    restart(sCurrentShape);
 }
 
 main();
