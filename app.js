@@ -31,13 +31,34 @@ const clearSvgSpinner = function (oSpinnerController) {
     oSpinnerController.clearShapePath(false);
 }
 
-const drawSvgSpinner = function (oSpinnerController) {
+const drawSvgSpinnerPolygon = function (oSpinnerController) {
     const oSvgContent = document.getElementById('svgcontent');
     const oSvgSpinner = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
     oSvgSpinner.id = 'svgspinner';
     oSvgContent.appendChild(oSvgSpinner);
     for (let nTicks = 0; nTicks <= nTotalTicks; nTicks++) {
         oSpinnerController.drawShapePath(nTicks, nTotalTicks, false);
+    }
+}
+
+const drawSvgSpinnerPath = function (oSpinnerController) {
+    const oSvgContent = document.getElementById('svgcontent');
+    const oSvgSpinner = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    oSvgSpinner.id = 'svgspinner';
+    oSvgContent.appendChild(oSvgSpinner);
+    for (let nTicks = 0; nTicks <= nTotalTicks; nTicks++) {
+        const sPathD = oSpinnerController.drawShapePath(nTicks, nTotalTicks, false);
+        if (sPathD && sPathD.length > 5) {
+            oSvgSpinner.setAttribute('d', sPathD);
+        }
+    }
+}
+
+const drawSvgSpinner = function (oSpinnerController) {
+    if (oSpinnerController.svgShapeType && oSpinnerController.svgShapeType === 'path') {
+        drawSvgSpinnerPath(oSpinnerController);
+    } else {
+        drawSvgSpinnerPolygon(oSpinnerController);
     }
 }
 
