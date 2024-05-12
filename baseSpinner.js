@@ -15,7 +15,9 @@ export class BaseSpinner {
         const oSvgSpinner = document.getElementById('svgspinner');
         if (oSvgSpinner) {
             const oSvgPointList = oSvgSpinner.points;
-            oSvgPointList.clear();
+            if (oSvgPointList) {
+                oSvgPointList.clear();
+            }
         }
     }
 
