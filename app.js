@@ -55,7 +55,7 @@ const drawSvgSpinnerPath = function (oSpinnerController) {
 }
 
 const drawSvgSpinner = function (oSpinnerController) {
-    if (oSpinnerController.svgShapeType && oSpinnerController.svgShapeType === 'path') {
+    if (oSpinnerController.constructor.svgShapeType && oSpinnerController.constructor.svgShapeType === 'path') {
         drawSvgSpinnerPath(oSpinnerController);
     } else {
         drawSvgSpinnerPolygon(oSpinnerController);

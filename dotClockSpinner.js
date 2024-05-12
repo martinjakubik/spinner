@@ -2,6 +2,7 @@ import { BaseSpinner } from "./baseSpinner.js";
 
 export class DotClockSpinner extends BaseSpinner {
     static sName = 'DotClock';
+    static svgShapeType = 'path';
 
     static getSvgPointFromXY = function (sFormattedXValue, sFormattedYValue) {
         return `${Math.round(sFormattedXValue)},${Math.round(sFormattedYValue)}`;
