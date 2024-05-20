@@ -77,7 +77,7 @@ export class DotClockSpinner extends BaseSpinner {
                 }
             }
         }
-        // sSvgPointList += ' Z';
+        sSvgPointList += ' Z';
         return sSvgPointList;
     }
 
