@@ -29,11 +29,7 @@ const drawSpinner = function (oSpinnerController) {
 
 const clearSvgSpinnerPath = function (oSpinnerController) {
     const oSvgContent = document.getElementById('svgcontent');
-    const aSvgSpinners = document.getElementsByClassName('svgspinner');
-    for (let i = 0; i < aSvgSpinners.length; i++) {
-        const oSvgSpinner = aSvgSpinners[i];
-        oSvgContent.removeChild(oSvgSpinner);
-    }
+    oSvgContent.innerHTML = '';
 }
 
 const clearSvgSpinner = function (oSpinnerController) {
