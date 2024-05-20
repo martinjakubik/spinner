@@ -57,10 +57,11 @@ const drawSvgSpinnerPolygon = function (oSpinnerController) {
 const drawSvgSpinnerPath = function (oSpinnerController) {
     const oSvgContent = document.getElementById('svgcontent');
     const oSvgSpinner = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-    oSvgSpinner.id = 'svgspinner';
-    oSvgSpinner.classList.add('svgspinner');
-    oSvgContent.appendChild(oSvgSpinner);
     for (let nTicks = 0; nTicks <= nTotalTicks; nTicks++) {
+        const oSvgSpinner = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        oSvgSpinner.id = `svgspinner-${nTicks}`;
+        oSvgSpinner.classList.add('svgspinner');
+        oSvgContent.appendChild(oSvgSpinner);
         const sPathD = oSpinnerController.drawShapePath(nTicks, nTotalTicks, false);
         if (sPathD && sPathD.length > 5) {
             oSvgSpinner.setAttribute('d', sPathD);

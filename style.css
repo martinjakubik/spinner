@@ -21,7 +21,7 @@ body {
     padding: 1em;
 }
 
-#svgspinner {
+.svgspinner {
     fill: none;
     stroke: black;
 }
