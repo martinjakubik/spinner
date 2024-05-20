@@ -27,8 +27,21 @@ const drawSpinner = function (oSpinnerController) {
     }
 }
 
+const clearSvgSpinnerPath = function (oSpinnerController) {
+    const oSvgContent = document.getElementById('svgcontent');
+    const aSvgSpinners = document.getElementsByClassName('svgspinner');
+    for (let i = 0; i < aSvgSpinners.length; i++) {
+        const oSvgSpinner = aSvgSpinners[i];
+        oSvgContent.removeChild(oSvgSpinner);
+    }
+}
+
 const clearSvgSpinner = function (oSpinnerController) {
-    oSpinnerController.clearShapePath(false);
+    if (oSpinnerController.constructor.svgShapeType && oSpinnerController.constructor.svgShapeType === 'path') {
+        clearSvgSpinnerPath(oSpinnerController);
+    } else {
+        oSpinnerController.clearShapePath(false);
+    }
 }
 
 const drawSvgSpinnerPolygon = function (oSpinnerController) {
@@ -45,6 +58,7 @@ const drawSvgSpinnerPath = function (oSpinnerController) {
     const oSvgContent = document.getElementById('svgcontent');
     const oSvgSpinner = document.createElementNS('http://www.w3.org/2000/svg', 'path');
     oSvgSpinner.id = 'svgspinner';
+    oSvgSpinner.classList.add('svgspinner');
     oSvgContent.appendChild(oSvgSpinner);
     for (let nTicks = 0; nTicks <= nTotalTicks; nTicks++) {
         const sPathD = oSpinnerController.drawShapePath(nTicks, nTotalTicks, false);
